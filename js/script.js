@@ -852,22 +852,103 @@ function initRadar() {
   showSkill(0);
 }
 
-/* ---------- 9. 技能标签 ---------- */
+/* ---------- 9. ???? ---------- */
 const TAGS = [
-  "SPSS", "Excel", "JASP", "问卷星", "Credamo", "Office 相关软件",
-  "ChatGPT", "Claude", "Gemini", "Midjourney",
-  "Vibe Coding", "剪影专业版"
+  { name: "ChatGPT", cat: "ai", lv: 5, desc: "文案、调研与工作流提效" },
+  { name: "Claude", cat: "ai", lv: 4, desc: "长文写作与代码辅助" },
+  { name: "Gemini", cat: "ai", lv: 4, desc: "多模态信息处理与检索" },
+  { name: "Codex", cat: "ai", lv: 5, desc: "自主完成网站搭建与轻量编程任务" },
+  { name: "Vibe Coding", cat: "ai", lv: 3, desc: "用 AI 自主完成轻量编程" },
+  { name: "Midjourney", cat: "content", lv: 4, desc: "海报与视觉素材生成" },
+  { name: "SPSS", cat: "data", lv: 4, desc: "实验赛数据清洗与统计分析" },
+  { name: "Excel", cat: "data", lv: 4, desc: "数据整理、清洗与可视化" },
+  { name: "JASP", cat: "data", lv: 3, desc: "统计检验与探索性分析" },
+  { name: "问卷星", cat: "data", lv: 4, desc: "问卷设计与在线施测" },
+  { name: "Credamo", cat: "data", lv: 3, desc: "在线实验与问卷回收" },
+  { name: "Office 相关软件", cat: "office", lv: 4, desc: "Word / PPT / WPS 文档与演示" },
+  { name: "剪影专业版", cat: "content", lv: 4, desc: "Vlog 剪辑与视频制作" }
 ];
 
 function initTags() {
   const cloud = $("#tagCloud");
   if (!cloud) return;
-  TAGS.forEach((t) => {
+  const loadout = $("#skillLoadout");
+  const equipped = [];
+
+  function renderLoadout() {
+    if (!loadout) return;
+    loadout.innerHTML = "";
+    if (!equipped.length) {
+      loadout.innerHTML = '<span class="loadout-empty">' + "点击下方技能进行装备" + '</span>';
+      return;
+    }
+    equipped.forEach((name) => {
+      const s = document.createElement("span");
+      s.className = "loadout-item";
+      s.textContent = name;
+      s.addEventListener("click", () => {
+        const idx = equipped.indexOf(name);
+        if (idx > -1) equipped.splice(idx, 1);
+        cloud.querySelectorAll(".skill-tag").forEach((tag) => {
+          const ne = tag.querySelector(".skill-name");
+          if (ne && ne.textContent === name) tag.classList.remove("equipped");
+        });
+        renderLoadout();
+        playBlip(520, 0.06, "square", 0.02);
+      });
+      loadout.appendChild(s);
+    });
+  }
+
+  function toggleEquip(tag) {
+    const nameEl = tag.querySelector(".skill-name");
+    if (!nameEl) return;
+    const name = nameEl.textContent;
+    const idx = equipped.indexOf(name);
+    if (idx > -1) {
+      equipped.splice(idx, 1);
+      tag.classList.remove("equipped");
+    } else {
+      if (equipped.length >= 3) return;
+      equipped.push(name);
+      tag.classList.add("equipped");
+    }
+    renderLoadout();
+    playBlip(760, 0.07, "square", 0.025);
+  }
+
+  TAGS.forEach((t, i) => {
     const span = document.createElement("span");
-    span.className = "skill-tag";
-    span.textContent = t;
+    span.className = `skill-tag cat-${t.cat}`;
+    span.setAttribute("data-desc", t.desc);
+    span.innerHTML = `<span class="skill-tip">${t.desc}</span><span class="skill-name">${t.name}</span><span class="skill-lv">${"<i></i>".repeat(5)}</span>`;
+    const cells = span.querySelectorAll(".skill-lv i");
+    cells.forEach((c, j) => {
+      if (j < t.lv) c.classList.add("on");
+    });
+    span.addEventListener("click", () => toggleEquip(span));
     cloud.appendChild(span);
   });
+
+  renderLoadout();
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        io.unobserve(entry.target);
+        const tags = cloud.querySelectorAll(".skill-tag");
+        tags.forEach((tag, i) => {
+          setTimeout(() => {
+            tag.classList.add("lit");
+            playBlip(500 + i * 25, 0.05, "square", 0.02);
+          }, 80 + i * 70);
+        });
+      });
+    },
+    { threshold: 0.3 }
+  );
+  io.observe(cloud);
 }
 
 /* ---------- 10. 作品集(占位卡片) ---------- */
