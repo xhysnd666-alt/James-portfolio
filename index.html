@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>谢涵羽 · 玩家档案</title>
+  <meta name="description" content="谢涵羽的个人展示页:应用心理学 × 游戏领域,简历、经历、技能与作品集。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 左上角金币计数 -->
+  <div class="coin-hud" aria-hidden="true"><i class="coin-dot"></i> × <b id="coinCount">0</b></div>
+
+  <!-- 背景星空画布 -->
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <!-- ========== 顶部导航 ========== -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#hero"><span class="logo-block">XYH</span> 谢涵羽.GAME</a>
+      <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false">☰</button>
+      <nav class="nav-links" id="navMenu">
+        <a href="#about">关于</a>
+        <a href="#education">教育</a>
+        <a href="#experience">经历</a>
+        <a href="#skills">技能</a>
+        <a href="#games">游戏</a>
+        <a href="#portfolio">作品</a>
+        <a href="#contact">联系</a>
+      </nav>
+      <button class="sound-btn" id="soundToggle" type="button" aria-pressed="false">♪ 音效:关</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ========== 首屏 HERO ========== -->
+    <section id="hero" class="hero">
+      <canvas id="heroFx" class="hero-fx" aria-hidden="true"></canvas>
+      <div class="hero-bg-decor" aria-hidden="true">
+        <span class="float-item f1">🕹</span>
+        <span class="float-item f2">★</span>
+        <span class="float-item f3">♥</span>
+        <span class="float-item f4">♪</span>
+        <span class="float-item f5">✦</span>
+      </div>
+      <div class="hero-card">
+        <div class="avatar-wrap">
+          <canvas id="pixelAvatarHero" width="128" height="128" aria-label="像素头像"></canvas>
+          <span class="avatar-level">LV.23</span>
+        </div>
+        <p class="hero-badge font-pixel">PLAYER PROFILE</p>
+        <h1><span class="title-char">谢</span><span class="title-char">涵</span><span class="title-char">羽</span></h1>
+        <p class="hero-sub">应用心理学 × 游戏领域</p>
+        <p class="typewriter"><span id="typewriter"></span><span class="cursor">▌</span></p>
+        <div class="hero-tags">
+          <span>🎮 骨灰级玩家</span>
+          <span>🧠 应用心理</span>
+          <span>📊 数据洞察</span>
+          <span>✍️ 内容创作</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#experience">查看我的经历</a>
+          <a class="btn" href="assets/resume.pdf" download="谢涵羽简历.pdf">⬇ 下载简历 PDF</a>
+        </div>
+        <div class="hud" aria-label="秋招进度">
+          <span class="hud-title">🎯 秋招副本 · 进行中</span>
+          <div class="hud-track">
+            <span class="hud-node done">简历 ✓</span>
+            <span class="hud-arrow">▸</span>
+            <span class="hud-node done">作品站 ✓</span>
+            <span class="hud-arrow">▸</span>
+            <span class="hud-node current">面试准备中</span>
+          </div>
+          <div class="hud-flowbar"><span class="hud-flowdot"></span></div>
+        </div>
+        <p class="hero-mini">GPA 专业前 10% · 雅思 7.0 · 10 年老玩家 · 秋招进行中</p>
+      </div>
+    </section>
+
+  <!-- 首页/玩家档案分界线 -->
+  <div class="page-divider" aria-hidden="true">
+    <span class="divider-line"></span>
+    <span class="divider-arrow">▼</span>
+    <span class="divider-line"></span>
+  </div>
+    <!-- ========== 关于我 ========== -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section-title"><span class="pixel-icon">▶</span> 玩家档案 <span class="section-en">ABOUT</span></h2>
+        <div class="about-grid">
+          <div class="card id-card">
+            <span class="id-scan" aria-hidden="true"></span>
+            <div class="id-avatar">
+              <canvas id="pixelAvatarAbout" width="128" height="128" aria-label="像素头像"></canvas>
+              <button class="stat-gear" id="statGear" type="button" aria-label="打开角色属性">⚙</button>
+              <span class="stat-gear-label" aria-hidden="true">⚙ 属性</span>
+              <span class="stat-hint" id="statHint" aria-hidden="true">点击头像,查看我的角色属性</span>
+            </div>
+            <ul class="id-list">
+              <li><span>姓名</span>谢涵羽</li>
+              <li><span>坐标</span>香港 / 泉州</li>
+              <li><span>邮箱</span>2207861396@qq.com</li>
+              <li><span>电话</span>159-5957-6658</li>
+              <li><span>状态</span><em class="badge-online status-light">● 秋招冲刺中</em></li>
+            </ul>
+          </div>
+          <div class="card about-intro">
+            <p>你好!我是<strong>谢涵羽</strong>,北师香港浸会大学应用心理学大四在读,即将入读香港科技大学心理学与社会科学硕士。</p>
+            <p>同时,我也是一个有 <strong>10 年游龄</strong>、Steam 游戏库存 160+、累计游戏时长 6000+ 小时的玩家。三段实习让我跑通了「用户洞察 → 内容沟通 → 数据验证」的完整链路。</p>
+            <p>我想把心理学的严谨和玩家的热情结合起来,投身游戏领域,做最懂玩家的游戏人。</p>
+          </div>
+        </div>
+        <!-- 成就徽章 -->
+        <div class="achievements">
+          <div class="ach-card">
+            <div class="ach-icon" data-badge="psych"></div>
+            <div class="ach-info">
+              <h3>心理学探索者</h3>
+              <p>应用心理学专业,实验赛获奖,连续两年获校二等奖学金</p>
+            </div>
+          </div>
+          <div class="ach-card">
+            <div class="ach-icon" data-badge="map"></div>
+            <div class="ach-info">
+              <h3>人才地图绘制者</h3>
+              <p>深度连接游戏行业人才,沉淀行业认知</p>
+            </div>
+          </div>
+          <div class="ach-card">
+            <div class="ach-icon" data-badge="content"></div>
+            <div class="ach-info">
+              <h3>内容创作者<span class="ach-level">Lv.3</span></h3>
+              <p>公众号 × 小红书,原创科普内容创作者</p>
+            </div>
+          </div>
+          <div class="ach-card">
+            <div class="ach-icon" data-badge="community"></div>
+            <div class="ach-info">
+              <h3>社群守护者<span class="ach-level">Lv.2</span></h3>
+              <p>长期管理大型社群,及时回应、维护氛围</p>
+            </div>
+          </div>
+          <div class="ach-card">
+            <div class="ach-icon" data-badge="coach"></div>
+            <div class="ach-info">
+              <h3>面试辅导师</h3>
+              <p>为候选人提供面试辅导,理解筛选标准</p>
+            </div>
+          </div>
+          <div class="ach-card">
+            <div class="ach-icon" data-badge="kid"></div>
+            <div class="ach-info">
+              <h3>孩子王<span class="ach-level">Lv.2</span></h3>
+              <p>面向青少年主讲心理课,擅长把知识讲得有趣</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 教育背景 ========== -->
+    <section id="education" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title"><span class="pixel-icon">◆</span> 成长时间轴 <span class="section-en">EDUCATION</span></h2>
+        <div class="timeline">
+          <article class="card edu-card reveal">
+            <div class="edu-head">
+              <div>
+                <h3>香港科技大学</h3>
+                <p class="edu-major">硕士 · 心理学&社会科学</p>
+              </div>
+              <span class="badge badge-future">即将入学</span>
+            </div>
+            <p class="edu-date font-pixel">2026.08 - 2027.06</p>
+            <ul>
+              <li>继续深造,系统学习心理学和社会学研究方法,保持探索与成长</li>
+            </ul>
+          </article>
+          <article class="card edu-card reveal">
+            <div class="edu-head">
+              <div>
+                <h3>北师香港浸会大学</h3>
+                <p class="edu-major">本科 · 应用心理学</p>
+              </div>
+              <span class="badge badge-online">GPA 3.43 / 4.0</span>
+            </div>
+            <p class="edu-date font-pixel">2022.09 - 2026.06</p>
+            <ul>
+              <li>专业前 10%,连续两年获校二等奖学金</li>
+              <li>全国大学生心理与行为在线实验精英赛 · 三等奖(问卷设计与数据分析)</li>
+              <li>雅思 7.0</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 实习 / 校园经历 ========== -->
+    <section id="experience" class="section">
+      <div class="container">
+        <h2 class="section-title"><span class="pixel-icon">★</span> 打怪升级记录 <span class="section-en">EXPERIENCE</span></h2>
+        <div class="exp-grid">
+          <article class="card exp-card reveal">
+            <div class="exp-icon">🎯</div>
+            <div class="exp-body">
+              <h3>游戏运营猎头顾问</h3>
+              <p class="exp-org">上海科锐福克斯人才顾问有限公司</p>
+              <p class="exp-date font-pixel">2025.06 - 2025.09</p>
+              <ul>
+                <li>专注头部游戏公司<strong>高级资深岗位</strong>招聘,累计交付 <strong>32 个职位</strong>,通过分析 JD 系统积累运营、发行岗职责与业务流程认知</li>
+                <li>构建覆盖米哈游、莉莉丝、腾讯、鹰角、网易等 <strong>300+ 项目</strong>人才地图,与 <strong>40+ 位</strong>游戏人才深度连接,围绕版本、活动、发行、社区高频交流,日均有效沟通 <strong>18 个</strong></li>
+                <li>多次为运营、发行岗候选人提供面试辅导,在 case 与业务面试辅导中加深对岗位筛选标准的理解</li>
+                <li>对接多家游戏公司 HR,负责运营、发行岗人才画像构建,月均有效候选人 <strong>30 个</strong>,简历通过率 <strong>72%</strong></li>
+                <li>负责候选人面试到入职全流程,简历面试转化率 <strong>0.53%</strong>,<strong>4 位</strong>候选人推进至 offer 阶段,促成 <strong>2 枚</strong> offer</li>
+              </ul>
+              <div class="chips">
+                <span class="chip">32 岗位交付</span><span class="chip">300+ 人才地图</span><span class="chip">2 枚 offer</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card exp-card reveal">
+            <div class="exp-icon">🧑‍🏫</div>
+            <div class="exp-body">
+              <h3>辅导站工作者</h3>
+              <p class="exp-org">泉州市丰泽区未成年人心理健康辅导站</p>
+              <p class="exp-date font-pixel">2024.06 - 2024.09</p>
+              <ul>
+                <li>设计并主讲 <strong>8+ 节</strong>青少年心理课程(情绪管理、团队协作),覆盖 30+ 人次,获家长高度评价</li>
+                <li>公众号 + 小红书内容策划,输出 <strong>8 篇原创科普推文(阅读量 5000+)</strong>,独立管理 <strong>200+ 人</strong>社群</li>
+                <li>独立使用 ChatGPT、Midjourney 等 AI 工具完成 10+ 份宣传海报与文案设计</li>
+              </ul>
+              <div class="chips">
+                <span class="chip">8+ 心理课</span><span class="chip">5000+ 阅读</span><span class="chip">200+ 社群</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card exp-card reveal">
+            <div class="exp-icon">🛋️</div>
+            <div class="exp-body">
+              <h3>心理咨询师助教</h3>
+              <p class="exp-org">泉州市永乐心理咨询有限公司</p>
+              <p class="exp-date font-pixel">2023.07 - 2023.09</p>
+              <ul>
+                <li>管理 <strong>200+ 人</strong>来访者社群,定期撰写发布宣传资料,根据反馈持续优化</li>
+                <li>负责来访者接待与初访安排,锻炼沟通技巧、同理心与情绪观察力</li>
+                <li>参与 <strong>5 场心理讲座、3 次团体活动</strong>的全流程准备与执行</li>
+              </ul>
+              <div class="chips">
+                <span class="chip">200+ 社群</span><span class="chip">5 场讲座</span><span class="chip">3 次团辅</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card exp-card reveal">
+            <div class="exp-icon">🎪</div>
+            <div class="exp-body">
+              <div class="exp-head"><h3>舍堂导师(校园副本)</h3><span class="badge badge-clear">副本通关</span></div>
+              <p class="exp-org">宿舍楼学长舍堂导师 Resident Student Tutor</p>
+              <p class="exp-date font-pixel">2024.09 - 2026.06</p>
+              <ul>
+                <li><strong>【每日任务】</strong>楼层走访、宿生关怀、秩序监督,收集反馈并推动改善,提升楼层满意度</li>
+                <li><strong>【限时活动】</strong>自主策划并落地 <strong>8+ 场</strong>宿舍社群活动(Switch 挑战赛、电竞观影、期末电影节),覆盖 <strong>80+ 人次</strong>,从需求洞察到现场执行全程主导</li>
+              </ul>
+              <div class="chips">
+                <span class="chip">8+ 活动</span><span class="chip">80+ 人次</span><span class="chip">Switch 挑战赛</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 技能树 ========== -->
+    <section id="skills" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title"><span class="pixel-icon">✚</span> 技能树 <span class="section-en">SKILLS</span></h2>
+        <div class="skills-grid">
+          <div class="card radar-card">
+            <svg id="radarSvg" viewBox="0 0 300 300" role="img" aria-label="能力雷达图">
+              <title>能力雷达图</title>
+              <desc>数据分析、问卷调研、内容创作、沟通表达、AI 应用、游戏认知六项能力</desc>
+            </svg>
+            <p class="radar-tip">💡 点击雷达图上的标签,查看技能说明</p>
+          </div>
+          <div class="card radar-detail" id="radarDetail">
+            <h3 id="radarTitle">能力详情</h3>
+            <p id="radarText">点击左侧雷达图上的标签,了解每项能力我能做什么、有什么证据。</p>
+          </div>
+        </div>
+        <div class="card tags-card">
+          <h3>技能标签</h3>
+          <div class="tag-cloud" id="tagCloud"></div>
+          <h3 class="lang-title">语言</h3>
+          <div class="tag-cloud">
+            <span class="skill-tag">中文(母语)</span>
+            <span class="skill-tag">英语(雅思 7.0)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 游戏玩家档案 ========== -->
+    <section id="games" class="section">
+      <div class="container">
+        <h2 class="section-title"><span class="pixel-icon">🕹</span> 玩家成就 <span class="section-en">GAMER PROFILE</span></h2>
+        <div class="games-grid">
+          <div class="card gamer-card reveal">
+            <div class="gamer-stats">
+              <div><span class="font-pixel gamer-num" data-count="10" data-suffix="">0</span><span>年游龄</span></div>
+              <div><span class="font-pixel gamer-num" data-count="6000" data-suffix="+">0</span><span>游戏时长(h)</span></div>
+              <div><span class="font-pixel gamer-num" data-count="160" data-suffix="+">0</span><span>Steam/Epic 库存</span></div>
+            </div>
+            <h3>全平台玩家</h3>
+            <div class="chips">
+              <span class="chip">PSN</span><span class="chip">Switch</span><span class="chip">PC</span><span class="chip">手游</span>
+            </div>
+            <h3>涉猎类型</h3>
+            <div class="chips">
+              <span class="chip">FPS</span><span class="chip">RPG</span><span class="chip">ARPG</span><span class="chip">SLG</span><span class="chip">ACT</span><span class="chip">MOBA</span>
+            </div>
+            <h3>本命游戏大全</h3>
+            <div class="flip-grid">
+              <div class="flip-card" tabindex="0" aria-label="荒野大镖客2">
+                <div class="flip-inner">
+                  <div class="flip-front"><span class="flip-emoji">🌵</span><span>荒野大镖客 2</span></div>
+                  <div class="flip-back">在西部,慢慢活着也是一种浪漫</div>
+                </div>
+              </div>
+              <div class="flip-card" tabindex="0" aria-label="艾尔登法环">
+                <div class="flip-inner">
+                  <div class="flip-front"><span class="flip-emoji">🗡️</span><span>艾尔登法环</span></div>
+                  <div class="flip-back">死 200 次也不会卸载的那种爱</div>
+                </div>
+              </div>
+              <div class="flip-card" tabindex="0" aria-label="塞尔达旷野之息">
+                <div class="flip-inner">
+                  <div class="flip-front"><span class="flip-emoji">🏹</span><span>塞尔达:旷野之息</span></div>
+                  <div class="flip-back">一个人,一匹马,整个世界都在等你</div>
+                </div>
+              </div>
+              <div class="flip-card" tabindex="0" aria-label="文明">
+                <div class="flip-inner">
+                  <div class="flip-front"><span class="flip-emoji">🏛️</span><span>文明</span></div>
+                  <div class="flip-back">再玩一回合就睡——然后天亮了</div>
+                </div>
+              </div>
+            </div>
+            <button class="btn draw-btn" id="drawCardBtn" type="button">🎴 抽一张我的游戏卡</button>
+            <div class="draw-result" id="drawResult" hidden></div>
+          </div>
+          <div class="card gamer-quote reveal">
+            <p class="quote-mark">“</p>
+            <p class="quote-text">几乎所有下载榜新游戏都会第一时间试玩——对玩家保持好奇,是游戏人的基本功。</p>
+            <p class="quote-name">—— 谢涵羽 · 玩家视角</p>
+            <p class="quote-note">10 年端手游双修,3A 大作广泛涉猎;既懂硬核玩家,也懂休闲玩家,更懂「为什么玩家会留下来」。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 作品图鉴(占位) ========== -->
+    <section id="portfolio" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title"><span class="pixel-icon">🗂</span> 作品图鉴 <span class="section-en">PORTFOLIO</span></h2>
+        <p class="section-note">点击卡片前往 B 站观看我的 Vlog</p>
+        <div class="vlog-grid">
+          <a class="vlog-card" href="https://space.bilibili.com/35346454" target="_blank" rel="noopener">
+            <div class="vlog-cover"><img src="assets/vlogs/01-nantaihang.png" alt="南太行徒步"><span class="vlog-play">▶ 播放</span></div>
+            <div class="vlog-info">
+              <p class="vlog-name">南太行徒步</p>
+              <p class="vlog-up">UP 主:谢涵羽</p>
+            </div>
+          </a>
+          <a class="vlog-card" href="https://space.bilibili.com/35346454" target="_blank" rel="noopener">
+            <div class="vlog-cover"><img src="assets/vlogs/02-thailand.png" alt="泰国 Vlog"><span class="vlog-play">▶ 播放</span></div>
+            <div class="vlog-info">
+              <p class="vlog-name">泰国 Vlog</p>
+              <p class="vlog-up">UP 主:谢涵羽</p>
+            </div>
+          </a>
+          <a class="vlog-card" href="https://space.bilibili.com/35346454" target="_blank" rel="noopener">
+            <div class="vlog-cover"><img src="assets/vlogs/03-fenghuangshan.png" alt="珠海凤凰山 Vlog"><span class="vlog-play">▶ 播放</span></div>
+            <div class="vlog-info">
+              <p class="vlog-name">珠海凤凰山 Vlog</p>
+              <p class="vlog-up">UP 主:谢涵羽</p>
+            </div>
+          </a>
+          <a class="vlog-card" href="https://space.bilibili.com/35346454" target="_blank" rel="noopener">
+            <div class="vlog-cover"><img src="assets/vlogs/04-yubeng.png" alt="雨崩 Vlog"><span class="vlog-play">▶ 播放</span></div>
+            <div class="vlog-info">
+              <p class="vlog-name">雨崩 Vlog</p>
+              <p class="vlog-up">UP 主:谢涵羽</p>
+            </div>
+          </a>
+        </div>
+        <div class="bili-home-wrap">
+          <a class="btn bili-home-btn" href="https://space.bilibili.com/35346454" target="_blank" rel="noopener">🎥 前往我的 B 站主页 ↗</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== 联系我 ========== -->
+    <section id="contact" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title"><span class="pixel-icon">✉</span> 传送门 <span class="section-en">CONTACT</span></h2>
+        <div class="contact-grid">
+          <div class="card contact-card">
+            <h3>📮 邮箱</h3>
+            <p class="contact-value">2207861396@qq.com</p>
+            <button class="btn" id="copyEmail" type="button">复制邮箱</button>
+            <a class="btn" href="mailto:2207861396@qq.com">发邮件给我</a>
+          </div>
+          <div class="card contact-card">
+            <h3>📱 电话 / 微信</h3>
+            <p class="contact-value">159-5957-6658</p>
+            <button class="btn" id="copyPhone" type="button">复制号码</button>
+            <a class="btn" href="tel:+8615959576658">直接拨打</a>
+          </div>
+          <div class="card contact-card qr-card">
+            <h3>🔗 简历 PDF</h3>
+            <div id="qrBox" class="qr-box" aria-label="简历下载二维码"></div>
+            <p class="qr-tip">扫码下载我的简历 PDF</p>
+            <a class="btn btn-primary" href="assets/resume.pdf" download="谢涵羽简历.pdf">⬇ 下载简历</a>
+          </div>
+        </div>
+        <p class="contact-note">📌 本页二维码指向部署后的简历地址,部署完成后再看 <code>js/script.js</code> 顶部 <code>RESUME_URL</code> 的说明。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><span class="font-pixel">© 2026</span> 谢涵羽 · Made with ❤ + 🕹 + pixels</p>
+    <p class="footer-sub">纯 HTML / CSS / JS · 双击即可打开 · 修改指南见 README.md</p>
+  </footer>
+
+  <!-- 角色属性弹窗 -->
+  <div class="stat-modal" id="statModal" role="dialog" aria-modal="true" aria-labelledby="statModalTitle" hidden>
+    <div class="stat-modal-box">
+      <button class="modal-close" id="statModalClose" type="button" aria-label="关闭">✕</button>
+      <p class="stat-modal-title font-pixel" id="statModalTitle">STATUS · 角色属性</p>
+      <div class="stat-modal-head">
+        <canvas id="statModalAvatar" width="128" height="128" aria-label="像素头像"></canvas>
+        <div>
+          <h3>谢涵羽</h3>
+          <p><span class="stat-level">LV.23</span> 秋招挑战者</p>
+        </div>
+      </div>
+      <div class="stat-modal-rows">
+        <div class="stat-row"><span class="stat-name">体力</span><span class="stat-track"><span class="stat-fill stamina" style="width:85%"></span></span></div>
+        <p class="stat-tip">每周健身,精力充沛</p>
+        <div class="stat-row"><span class="stat-name">智力</span><span class="stat-track"><span class="stat-fill intel" style="width:92%"></span></span></div>
+        <p class="stat-tip">应用心理学,研究方法在手</p>
+        <div class="stat-row"><span class="stat-name">社交</span><span class="stat-track"><span class="stat-fill social" style="width:96%"></span></span></div>
+        <p class="stat-tip">善于倾听沟通,自带幽默</p>
+        <div class="stat-row"><span class="stat-name">游戏力</span><span class="stat-track"><span class="stat-fill gamer" style="width:99%"></span></span></div>
+        <p class="stat-tip">10 年玩家,全平台双修</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
