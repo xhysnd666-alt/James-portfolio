@@ -11,7 +11,7 @@
 const CONFIG = {
   // 部署后改成你的简历直链,二维码会自动更新。
   // 例如:https://你的用户名.github.io/你的仓库名/assets/resume.pdf
-  RESUME_URL: "https://your-username.github.io/your-repo/assets/resume.pdf",
+  RESUME_URL: "https://xhysnd666-alt.github.io/James-portfolio/assets/resume.pdf",
   EMAIL: "2207861396@qq.com",
   PHONE: "159-5957-6658",
   PHONE_TEL: "+8615959576658"
@@ -26,13 +26,14 @@ function prefersReducedMotion() {
 }
 
 /* ---------- 2. 8-bit 音效(可选) ---------- */
-let soundOn = localStorage.getItem("xyh-sound") === "1";
+let soundOn = localStorage.getItem("xyh-sound") !== "0";
 let audioCtx = null;
 
 function playBlip(freq = 440, dur = 0.09, type = "square", vol = 0.04) {
   if (!soundOn) return;
   try {
     audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     osc.type = type;
@@ -59,7 +60,12 @@ function initSound() {
     soundOn = !soundOn;
     localStorage.setItem("xyh-sound", soundOn ? "1" : "0");
     render();
-    if (soundOn) playBlip(660, 0.12);
+    if (soundOn) {
+      playBlip(660, 0.12);
+      startMusic();
+    } else {
+      stopMusic();
+    }
   });
 }
 
@@ -153,8 +159,9 @@ function initStarfield() {
   let popups = [];
   let activeBlock = null;
   let blockCooldown = 90;
-  let airship = null;
-  let airshipTimer = 480;
+  let airships = [];
+  let airshipTimer = 240;
+  let airshipType = 0;
   let coinCount = 0;
   let mouseX = -9999;
   let mouseY = -9999;
@@ -345,6 +352,41 @@ function initStarfield() {
   function drawAirship(a, t) {
     const x = a.x;
     const y = a.y + Math.sin(t * 0.05 + a.phase) * 3;
+    const p = Math.sin(t * 0.4 + a.phase) * 4;
+    if (a.type === 1) {
+      ctx.fillStyle = "#e60012";
+      ctx.fillRect(Math.floor(x - 18), Math.floor(y - 8), 36, 10);
+      ctx.fillRect(Math.floor(x - 13), Math.floor(y - 14), 26, 6);
+      ctx.fillRect(Math.floor(x - 8), Math.floor(y - 18), 16, 4);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(Math.floor(x - 10), Math.floor(y - 12), 5, 5);
+      ctx.fillRect(Math.floor(x + 5), Math.floor(y - 10), 5, 5);
+      ctx.fillStyle = "#d9a066";
+      ctx.fillRect(Math.floor(x - 9), Math.floor(y + 2), 18, 8);
+      ctx.fillStyle = "#8f5326";
+      ctx.fillRect(Math.floor(x - 7), Math.floor(y + 10), 14, 6);
+      ctx.fillStyle = "#1d2536";
+      ctx.fillRect(Math.floor(x - 32 + p), Math.floor(y - 4), 4, 8);
+      ctx.fillRect(Math.floor(x + 28 - p), Math.floor(y - 4), 4, 8);
+      return;
+    }
+    if (a.type === 2) {
+      ctx.fillStyle = "#1d2536";
+      ctx.fillRect(Math.floor(x - 20), Math.floor(y - 10), 40, 24);
+      ctx.fillStyle = "#f6a43b";
+      ctx.fillRect(Math.floor(x - 17), Math.floor(y - 7), 34, 18);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(Math.floor(x - 4), Math.floor(y - 5), 2, 6);
+      ctx.fillRect(Math.floor(x - 2), Math.floor(y - 7), 6, 2);
+      ctx.fillRect(Math.floor(x - 6), Math.floor(y - 2), 2, 2);
+      ctx.fillRect(Math.floor(x + 4), Math.floor(y + 1), 2, 4);
+      ctx.fillStyle = "#8f5326";
+      ctx.fillRect(Math.floor(x - 7), Math.floor(y + 14), 14, 6);
+      ctx.fillStyle = "#1d2536";
+      ctx.fillRect(Math.floor(x - 32 + p), Math.floor(y - 2), 4, 8);
+      ctx.fillRect(Math.floor(x + 28 - p), Math.floor(y - 2), 4, 8);
+      return;
+    }
     ctx.fillStyle = "#e60012";
     ctx.fillRect(Math.floor(x - 26), Math.floor(y - 10), 52, 18);
     ctx.fillStyle = "#ffffff";
@@ -353,7 +395,6 @@ function initStarfield() {
     ctx.fillRect(Math.floor(x - 8), Math.floor(y + 8), 16, 8);
     ctx.fillStyle = "#1d2536";
     ctx.fillRect(Math.floor(x - 4), Math.floor(y + 16), 8, 2);
-    const p = Math.sin(t * 0.4 + a.phase) * 4;
     ctx.fillStyle = "#1d2536";
     ctx.fillRect(Math.floor(x - 32 + p), Math.floor(y - 4), 4, 8);
     ctx.fillRect(Math.floor(x + 28 - p), Math.floor(y - 4), 4, 8);
@@ -436,23 +477,24 @@ function initStarfield() {
       } else {
         blockCooldown--;
       }
-      if (!airship && airshipTimer <= 0) {
-        airship = {
+      if (airships.length < 2 && airshipTimer <= 0) {
+        airships.push({
+          type: airshipType,
           x: Math.random() < 0.5 ? -60 : canvas.width + 60,
-          y: 40 + Math.random() * canvas.height * 0.2,
+          y: 90 + Math.random() * canvas.height * 0.22,
           dir: Math.random() < 0.5 ? 1 : -1,
           v: 1.2 + Math.random() * 0.8,
           phase: Math.random() * Math.PI * 2
-        };
+        });
+        airshipType = (airshipType + 1) % 3;
+        airshipTimer = 300 + Math.floor(Math.random() * 300);
       }
-      if (airship) {
-        airship.x += airship.v * airship.dir;
-        drawAirship(airship, t);
-        if ((airship.dir === 1 && airship.x > canvas.width + 80) || (airship.dir === -1 && airship.x < -80)) {
-          airship = null;
-          airshipTimer = 300 + Math.floor(Math.random() * 300);
-        }
-      } else {
+      airships.forEach((a) => {
+        a.x += a.v * a.dir;
+        drawAirship(a, t);
+      });
+      airships = airships.filter((a) => !((a.dir === 1 && a.x > canvas.width + 80) || (a.dir === -1 && a.x < -80)));
+      if (airships.length < 2) {
         airshipTimer--;
       }
       drawPopups();
@@ -2041,8 +2083,116 @@ function initTitlePop() {
   });
 }
 
+/* ---------- 23. 开场仪式 ---------- */
+function initIntro() {
+  const overlay = document.getElementById("introOverlay");
+  if (!overlay) return;
+  if (prefersReducedMotion()) {
+    overlay.remove();
+    return;
+  }
+  [523, 659, 784, 1047].forEach((f, i) => {
+    setTimeout(() => playBlip(f, 0.1, "square", 0.04), 100 + i * 180);
+  });
+  setTimeout(() => overlay.remove(), 3200);
+}
+
+/* ---------- 24. 打怪升级记录掉落物 ---------- */
+function initExpDrops() {
+  const map = {
+    offer: ["📄", "💼", "⭐"],
+    heart: ["💗", "📝", "✨"],
+    talk: ["💬", "🤝", "💡"],
+    game: ["🎮", "🎬", "🍿"]
+  };
+  document.querySelectorAll(".exp-card").forEach((card) => {
+    const items = map[card.dataset.drop] || ["✦"];
+    card.addEventListener("mouseenter", () => {
+      const rect = card.getBoundingClientRect();
+      items.forEach((icon, i) => {
+        const s = document.createElement("span");
+        s.className = "exp-drop";
+        s.textContent = icon;
+        s.style.left = (10 + Math.random() * (rect.width - 40)) + "px";
+        s.style.animationDelay = (i * 0.12 + Math.random() * 0.2) + "s";
+        s.style.animationDuration = (0.9 + Math.random() * 0.5) + "s";
+        card.appendChild(s);
+        s.addEventListener("animationend", () => s.remove());
+      });
+    });
+  });
+}
+
+/* ---------- 25. Background Music ---------- */
+const bgmAudio = new Audio("assets/bgm.m4a");
+bgmAudio.loop = true;
+bgmAudio.volume = 0.55;
+
+function startMusic() {
+  if (!soundOn) return;
+  const p = bgmAudio.play();
+  if (p) p.catch(() => {});
+}
+
+function stopMusic() {
+  bgmAudio.pause();
+}
+
+function initMusic() {
+  const kick = () => {
+    startMusic();
+    if (!bgmAudio.paused) {
+      document.removeEventListener("pointerdown", kick);
+      document.removeEventListener("keydown", kick);
+      document.removeEventListener("touchstart", kick);
+    }
+  };
+  document.addEventListener("pointerdown", kick);
+  document.addEventListener("keydown", kick);
+  document.addEventListener("touchstart", kick);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopMusic();
+    else if (soundOn) startMusic();
+  });
+  startMusic();
+}
+
+/* ---------- 26. 成长时间轴动效 ---------- */
+function initEducationFx() {
+  const edu = document.getElementById("education");
+  if (!edu) return;
+  const timeline = edu.querySelector(".timeline");
+  if (timeline) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          io.unobserve(entry.target);
+          timeline.classList.add("grow");
+        });
+      },
+      { threshold: 0.3 }
+    );
+    io.observe(edu);
+  }
+
+  const years = edu.querySelectorAll(".edu-year");
+  if (prefersReducedMotion() || !years.length) return;
+  const onScroll = () => {
+    const r = edu.getBoundingClientRect();
+    const mid = r.top + r.height / 2 - window.innerHeight / 2;
+    years.forEach((y, i) => {
+      y.style.transform = "translateY(" + (-mid * (0.06 + i * 0.03)).toFixed(1) + "px)";
+    });
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+}
+
 /* ---------- 启动 ---------- */
 document.addEventListener("DOMContentLoaded", () => {
+  initIntro();
+  initMusic();
   drawPixelAvatar($("#pixelAvatarHero"));
   drawPixelAvatar($("#pixelAvatarAbout"));
   initAvatarExpressions();
@@ -2054,6 +2204,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initTitlePop();
   initNav();
   initRevealAndCounters();
+  initEducationFx();
   initRadar();
   initTags();
   initQR();
@@ -2065,4 +2216,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initTrail();
   initKorok();
   initGamesSection();
+  initExpDrops();
 });

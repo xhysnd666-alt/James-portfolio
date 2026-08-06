@@ -11,6 +11,12 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- 开场仪式 -->
+  <div id="introOverlay" aria-hidden="true">
+    <p class="intro-text">GET READY!</p>
+    <p class="intro-sub">PLAYER: 谢涵羽</p>
+    <p class="intro-go">GO!</p>
+  </div>
   <!-- 左上角金币计数 -->
   <div class="coin-hud" aria-hidden="true"><i class="coin-dot"></i> × <b id="coinCount">0</b></div>
 
@@ -167,7 +173,8 @@
       <div class="container">
         <h2 class="section-title"><span class="pixel-icon">◆</span> 成长时间轴 <span class="section-en">EDUCATION</span></h2>
         <div class="timeline">
-          <article class="card edu-card reveal">
+          <article class="card edu-card reveal upcoming">
+            <span class="edu-year" aria-hidden="true">2026</span>
             <div class="edu-head">
               <div>
                 <h3>香港科技大学</h3>
@@ -176,11 +183,14 @@
               <span class="badge badge-future">即将入学</span>
             </div>
             <p class="edu-date font-pixel">2026.08 - 2027.06</p>
+              <div class="edu-progress"><span class="edu-progress-label">解锁进度</span><span class="edu-progress-track"><i class="edu-progress-fill" style="--edu:80%"></i></span></div>
             <ul>
               <li>继续深造,系统学习心理学和社会学研究方法,保持探索与成长</li>
             </ul>
           </article>
-          <article class="card edu-card reveal">
+          <article class="card edu-card reveal done">
+            <span class="edu-year" aria-hidden="true">2022</span>
+            <span class="edu-stamp">✓ 已完成</span>
             <div class="edu-head">
               <div>
                 <h3>北师香港浸会大学</h3>
@@ -204,9 +214,11 @@
       <div class="container">
         <h2 class="section-title"><span class="pixel-icon">★</span> 打怪升级记录 <span class="section-en">EXPERIENCE</span></h2>
         <div class="exp-grid">
-          <article class="card exp-card reveal">
+          <article class="card exp-card reveal" data-drop="offer">
+            <span class="exp-stamp">✓ 已通关</span>
             <div class="exp-icon">🎯</div>
             <div class="exp-body">
+              <div class="exp-stage"><span class="exp-stage-label">主线 · BOSS 关卡</span><span class="exp-exp"><i class="exp-exp-fill" style="--exp:92%"></i></span></div>
               <h3>游戏运营猎头顾问</h3>
               <p class="exp-org">上海科锐福克斯人才顾问有限公司</p>
               <p class="exp-date font-pixel">2025.06 - 2025.09</p>
@@ -223,16 +235,19 @@
             </div>
           </article>
 
-          <article class="card exp-card reveal">
+          <article class="card exp-card reveal" data-drop="heart">
+            <span class="exp-stamp">✓ 已通关</span>
             <div class="exp-icon">🧑‍🏫</div>
             <div class="exp-body">
+              <div class="exp-stage"><span class="exp-stage-label">主线 · 支线任务</span><span class="exp-exp"><i class="exp-exp-fill" style="--exp:78%"></i></span></div>
               <h3>辅导站工作者</h3>
               <p class="exp-org">泉州市丰泽区未成年人心理健康辅导站</p>
               <p class="exp-date font-pixel">2024.06 - 2024.09</p>
-              <ul>
-                <li>设计并主讲 <strong>8+ 节</strong>青少年心理课程(情绪管理、团队协作),覆盖 30+ 人次,获家长高度评价</li>
-                <li>公众号 + 小红书内容策划,输出 <strong>8 篇原创科普推文(阅读量 5000+)</strong>,独立管理 <strong>200+ 人</strong>社群</li>
-                <li>独立使用 ChatGPT、Midjourney 等 AI 工具完成 10+ 份宣传海报与文案设计</li>
+                            <ul>
+                <li>设计并主讲 <strong>8+ 节</strong>心理课程,面向 <strong>30+ 青少年群体</strong>,涵盖情绪管理、团队协作等主题,有效传递信息并引导互动,锻炼了清晰表达、理解受众需求及现场控场能力,获得家长高度评价</li>
+                <li>负责微信公众号和小红书内容策划与撰写,输出 <strong>8 篇</strong>原创心理健康科普推文(累计阅读量 <strong>5000+</strong>),同时独自管理 <strong>200+ 人</strong>的社群,锻炼了信息提炼、文案写作及用户互动能力</li>
+                <li>独立使用 AIGC 工具完成 <strong>10+ 份</strong>宣传海报与视频广告,帮助辅导站更好的宣传</li>
+                <li>多次独立承担 <strong>30 人以上</strong>青少年群体的心理课授课任务,锻炼课程组织与受众沟通能力,具备良好培训表达与内容转化能力,课后获得家长和学生的高度评价</li>
               </ul>
               <div class="chips">
                 <span class="chip">8+ 心理课</span><span class="chip">5000+ 阅读</span><span class="chip">200+ 社群</span>
@@ -240,9 +255,11 @@
             </div>
           </article>
 
-          <article class="card exp-card reveal">
+          <article class="card exp-card reveal" data-drop="talk">
+            <span class="exp-stamp">✓ 已通关</span>
             <div class="exp-icon">🛋️</div>
             <div class="exp-body">
+              <div class="exp-stage"><span class="exp-stage-label">支线 · 心灵驿站</span><span class="exp-exp"><i class="exp-exp-fill" style="--exp:64%"></i></span></div>
               <h3>心理咨询师助教</h3>
               <p class="exp-org">泉州市永乐心理咨询有限公司</p>
               <p class="exp-date font-pixel">2023.07 - 2023.09</p>
@@ -257,9 +274,11 @@
             </div>
           </article>
 
-          <article class="card exp-card reveal">
+          <article class="card exp-card reveal" data-drop="game">
+            <span class="exp-stamp">✓ 已通关</span>
             <div class="exp-icon">🎪</div>
             <div class="exp-body">
+              <div class="exp-stage"><span class="exp-stage-label">隐藏副本 · 宿舍长</span><span class="exp-exp"><i class="exp-exp-fill" style="--exp:70%"></i></span></div>
               <div class="exp-head"><h3>舍堂导师(校园副本)</h3><span class="badge badge-clear">副本通关</span></div>
               <p class="exp-org">宿舍楼学长舍堂导师 Resident Student Tutor</p>
               <p class="exp-date font-pixel">2024.09 - 2026.06</p>

@@ -2399,3 +2399,359 @@ code {
 .bili-home-btn:hover {
   background: #ff8fae;
 }
+/* ============ 开场仪式 ============ */
+#introOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: #1d2536;
+  animation: introFade 0.5s ease 2.4s forwards;
+}
+.intro-text {
+  font-family: "Press Start 2P", "ZCOOL KuaiLe", monospace;
+  font-size: clamp(26px, 8vw, 60px);
+  color: #ffffff;
+  text-shadow: 4px 4px 0 var(--red), 8px 8px 0 #000000;
+  opacity: 0;
+  animation: introPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s forwards;
+}
+.intro-sub {
+  font-family: "Press Start 2P", "ZCOOL KuaiLe", monospace;
+  font-size: 13px;
+  color: var(--yellow);
+  opacity: 0;
+  animation: introPop 0.5s ease 0.6s forwards;
+}
+.intro-go {
+  font-family: "Press Start 2P", "ZCOOL KuaiLe", monospace;
+  font-size: clamp(34px, 10vw, 76px);
+  color: var(--yellow);
+  text-shadow: 4px 4px 0 var(--red), 8px 8px 0 #000000;
+  opacity: 0;
+  animation: introPop 0.4s ease 1.55s forwards, introHide 0.3s ease 2.1s forwards;
+}
+@keyframes introPop {
+  from { opacity: 0; transform: scale(0.4) rotate(-6deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes introHide {
+  to { opacity: 0; }
+}
+@keyframes introFade {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+/* ============ 打怪升级记录互动 ============ */
+.exp-card {
+  position: relative;
+  flex-wrap: wrap;
+}
+.exp-stage {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.exp-stage-label {
+  font-size: 12px;
+  color: var(--pink);
+  background: rgba(242, 95, 165, 0.1);
+  border: 2px solid var(--pink);
+  padding: 2px 7px;
+  white-space: nowrap;
+}
+.exp-exp {
+  flex: 1;
+  height: 10px;
+  background: var(--panel2);
+  border: 2px solid var(--line);
+  padding: 1px;
+  overflow: hidden;
+}
+.exp-exp-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: repeating-linear-gradient(90deg, var(--green) 0 4px, #a8eebd 4px 6px);
+  transition: width 1s ease 0.3s;
+}
+.exp-card.visible .exp-exp-fill {
+  width: var(--exp);
+}
+.exp-stamp {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-family: "Press Start 2P", "ZCOOL KuaiLe", monospace;
+  font-size: 10px;
+  color: var(--green);
+  border: 3px solid var(--green);
+  padding: 3px 6px;
+  opacity: 0;
+  transform: rotate(-10deg) scale(2);
+  z-index: 2;
+}
+.exp-card.visible .exp-stamp {
+  animation: stampIn 0.45s ease 0.9s forwards;
+}
+@keyframes stampIn {
+  from { opacity: 0; transform: rotate(-14deg) scale(2); }
+  to { opacity: 1; transform: rotate(-8deg) scale(1); }
+}
+.exp-card.visible strong {
+  display: inline-block;
+  animation: numPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.exp-card.visible strong:nth-of-type(2) { animation-delay: 0.12s; }
+.exp-card.visible strong:nth-of-type(3) { animation-delay: 0.24s; }
+.exp-card.visible strong:nth-of-type(4) { animation-delay: 0.36s; }
+@keyframes numPop {
+  from { opacity: 0.2; transform: scale(0.4); }
+  to { opacity: 1; transform: none; }
+}
+.exp-drop {
+  position: absolute;
+  bottom: 8px;
+  font-size: 22px;
+  pointer-events: none;
+  opacity: 0;
+  animation: expDropUp 1s ease-out forwards;
+  z-index: 3;
+}
+@keyframes expDropUp {
+  0% { opacity: 0; transform: translateY(0) scale(0.6); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-130px) scale(1.25) rotate(14deg); }
+}
+/* ============ 经历区紧凑排版 ============ */
+#experience {
+  padding: 56px 0;
+}
+#experience .exp-grid {
+  gap: 18px;
+}
+#experience .exp-card {
+  padding: 18px;
+}
+#experience .exp-icon {
+  width: 54px;
+  height: 54px;
+  font-size: 30px;
+  box-shadow: 3px 3px 0 var(--cyan);
+}
+#experience .exp-stage {
+  margin-bottom: 8px;
+  padding-right: 76px;
+}
+#experience .exp-exp {
+  height: 8px;
+}
+#experience .exp-stamp {
+  top: 6px;
+  right: 8px;
+  font-size: 9px;
+  padding: 2px 5px;
+  border-width: 2px;
+}
+#experience .exp-body h3 {
+  font-size: 18px;
+  margin-bottom: 0;
+}
+#experience .exp-org {
+  font-size: 13px;
+}
+#experience .exp-date {
+  margin: 4px 0 8px;
+  font-size: 11px;
+}
+#experience .exp-body ul {
+  margin-bottom: 8px;
+}
+#experience .exp-body ul li {
+  font-size: 13.5px;
+  margin-bottom: 5px;
+  line-height: 1.6;
+}
+#experience .chips {
+  gap: 6px;
+}
+#experience .chip {
+  font-size: 12px;
+  padding: 1px 7px;
+}
+/* ============ 经历区:恢复字体 + 图标与岗位对齐 ============ */
+#experience .exp-card {
+  align-items: center;
+}
+#experience .exp-icon {
+  width: 62px;
+  height: 62px;
+  font-size: 38px;
+  box-shadow: 4px 4px 0 var(--cyan);
+}
+#experience .exp-body {
+  min-width: 0;
+}
+#experience .exp-body h3 {
+  font-size: 20px;
+}
+#experience .exp-org {
+  font-size: 15px;
+}
+#experience .exp-date {
+  font-size: 12px;
+  margin: 6px 0 10px;
+}
+#experience .exp-body ul li {
+  font-size: 15px;
+  line-height: 1.75;
+  margin-bottom: 7px;
+}
+#experience .chip {
+  font-size: 13px;
+  padding: 2px 9px;
+}
+/* ============ 经历区:关卡条与图标平行 ============ */
+#experience .exp-card {
+  align-items: flex-start;
+}
+#experience .exp-stage {
+  width: 100%;
+  margin-bottom: 6px;
+}
+#experience .exp-body h3 {
+  margin-top: 0;
+}
+/* ============ 背景音乐按钮 ============ */
+#musicBtn {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 145;
+  width: 46px;
+  height: 46px;
+  font-size: 20px;
+  font-family: "Press Start 2P", monospace;
+  background: var(--panel);
+  color: var(--cyan);
+  border: 3px solid var(--black);
+  box-shadow: 3px 3px 0 rgba(31, 36, 61, 0.25);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+#musicBtn:hover {
+  color: var(--yellow);
+}
+#musicBtn.off {
+  color: var(--muted);
+  animation: musicPulse 1.8s ease-in-out infinite;
+}
+@keyframes musicPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+/* ============ 成长时间轴互动 ============ */
+.timeline::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  width: 6px;
+  height: 0;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  transition: height 1.2s ease 0.2s;
+}
+.timeline.grow::after {
+  height: calc(100% - 16px);
+}
+.edu-card {
+  overflow: hidden;
+}
+.edu-card::before {
+  will-change: transform;
+}
+.edu-card.visible::before {
+  animation: eduNodePop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+}
+@keyframes eduNodePop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+.edu-year {
+  position: absolute;
+  right: 10px;
+  bottom: -6px;
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(48px, 8vw, 76px);
+  color: rgba(31, 36, 61, 0.07);
+  pointer-events: none;
+  line-height: 1;
+  z-index: 0;
+  will-change: transform;
+}
+.edu-card > *:not(.edu-year) {
+  position: relative;
+  z-index: 1;
+}
+.edu-stamp {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-family: "Press Start 2P", "ZCOOL KuaiLe", monospace;
+  font-size: 9px;
+  color: var(--green);
+  border: 2px solid var(--green);
+  padding: 2px 5px;
+  transform: rotate(-8deg);
+  opacity: 0;
+  z-index: 2;
+}
+.edu-card.done.visible .edu-stamp {
+  animation: stampIn 0.45s ease 0.9s forwards;
+}
+.edu-card.upcoming {
+  animation: eduUpGlow 2.6s ease-in-out infinite;
+}
+@keyframes eduUpGlow {
+  0%, 100% {
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.5), 0 0 0 2px var(--line);
+  }
+  50% {
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.5), 0 0 0 4px var(--cyan), 0 0 18px rgba(31, 127, 232, 0.25);
+  }
+}
+.edu-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 4px;
+}
+.edu-progress-label {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.edu-progress-track {
+  flex: 1;
+  height: 8px;
+  background: var(--panel2);
+  border: 2px solid var(--line);
+  padding: 1px;
+  overflow: hidden;
+}
+.edu-progress-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: repeating-linear-gradient(90deg, var(--cyan) 0 4px, #8fd6ff 4px 6px);
+  transition: width 1.2s ease 0.6s;
+}
+.edu-card.visible .edu-progress-fill {
+  width: var(--edu);
+}
